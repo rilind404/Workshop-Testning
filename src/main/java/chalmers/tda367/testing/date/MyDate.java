@@ -10,6 +10,10 @@ public class MyDate {
         Exempel datumet 2029-07-15 skapas med new MyDate(2029,7,15).
         @throws IllegalArgumentException ett exception ifall datumet inte är ett giltigt datum (t.ex. 2003-02-29). */
     public MyDate(int year, int month, int day) {
+        if(year < 0) throw new IllegalArgumentException();
+        if(month < 1 || month > 12) throw new IllegalArgumentException();
+        if(day < 1 || day > daysInMonth(month, year)) throw new IllegalArgumentException();
+
         y = year;
         m = month;
         d = day;
@@ -38,20 +42,23 @@ public class MyDate {
     public boolean equals(Object other) {
         if (other == null) { return false; }
         if (this.getClass() != other.getClass()) { return false; }
-        MyDate x = (MyDate)other;
-        return (this == x);
+        MyDate x = (MyDate) other;
+        return (this.y == x.y && this.m == x.m && this.d == x.d);
     }
 
     /** Returnerar -1 ifall this är ett tidigare datum än other.
         Returnerar 1 ifall other är ett tidigare datum än this.
         Returnerar 0 ifall this och other representerar samma datum. */
     public int compareTo(MyDate other) {
-        if (this.y < other.y || this.m < other.m || this.d < other.d) {
-            return -1;
-        }
-        if (this.y > other.y || this.m > other.m || this.d > other.d) {
-            return 1;
-        }
+        if(this.y < other.y) return -1;
+        if(this.y > other.y) return 1;
+
+        if(this.m < other.m) return -1;
+        if(this.m > other.m) return 1;
+
+        if(this.d < other.d) return -1;
+        if(this.d > other.d) return 1;
+
         return 0;
     }
 
